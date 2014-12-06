@@ -1,0 +1,136 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>yousuowei</artifactId>
+		<groupId>org.yousuowei</groupId>
+		<version>1.0.0</version>
+	</parent>
+	<artifactId>yousuowei-ota-web</artifactId>
+	<version>1.0.0</version>
+	<packaging>war</packaging>
+
+	<name>ota.web</name>
+	<url>http://maven.apache.org</url>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<dependencies>
+		<!-- <dependency> <groupId>org.yousuowei</groupId> <artifactId>yousuowei-base-web</artifactId> 
+			<version>1.0.0</version> <type>war</type> <scope>compile</scope> </dependency> -->
+		<dependency>
+			<groupId>org.yousuowei</groupId>
+			<artifactId>yousuowei-base-web</artifactId>
+			<version>1.0.0</version>
+			<!-- 引用base-web的jar包 -->
+			<classifier>web</classifier>
+		</dependency>
+		<dependency>
+			<groupId>org.yousuowei</groupId>
+			<artifactId>yousuowei-ota-ifc</artifactId>
+			<version>1.0.0</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.yousuowei</groupId>
+			<artifactId>yousuowei-ota-imp</artifactId>
+			<version>1.0.0</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+
+		<!-- 开源依赖 -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.1.0</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>javax.servlet.jsp-api</artifactId>
+			<version>2.3.1</version>
+			<type>jar</type>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.2</version>
+			<type>jar</type>
+			<scope>runtime</scope>
+		</dependency>
+		<!-- 开源依赖 -->
+	</dependencies>
+
+
+	<build>
+		<finalName>yousuowei-ota-web</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<configuration>
+					<path>/ota</path>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-web</id>
+						<phase>clean</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<overwrite>true</overwrite>
+							<encoding>UTF-8</encoding>
+							<outputDirectory>src/main/webapp/
+							</outputDirectory>
+							<resources>
+								<resource>
+									<directory>${path.base.web}/src/main/webapp</directory>
+									<includes>
+										<include>base/**</include>
+									</includes>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+					<execution>
+						<id>copy-resources</id>
+						<phase>clean</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<overwrite>false</overwrite>
+							<encoding>UTF-8</encoding>
+							<outputDirectory>src/main/
+							</outputDirectory>
+							<resources>
+								<resource>
+									<directory>${path.base.web}/src/main</directory>
+									<includes>
+										<include>webapp/WEB-INF/**</include>
+										<include>resources/**</include>
+										<include>webapp/page/**</include>
+										<include>webapp/css/**</include>
+										<include>webapp/img/**</include>
+										<include>webapp/js/**</include>
+									</includes>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
