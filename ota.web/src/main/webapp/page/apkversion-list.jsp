@@ -48,8 +48,7 @@
 					<td>${e.version}</td>
 					<td>${e.fileMd5}</td>
 					<td>${e.url}</td>
-					<td><a href="${e.id}">编辑</a> <a
-						href="javascript:base.remove('${e.id }');">删除</a></td>
+					<td><a href="${e.id}">编辑</a> <a href="del/${e.id }">删除</a></td>
 				</tr>
 			</c:forEach>
 			<tr>

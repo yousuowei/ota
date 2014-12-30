@@ -11,16 +11,14 @@
 
 package org.yousuowei.ota.web.controller;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.yousuowei.base.web.controller.BaseApi;
 import org.yousuowei.ota.ifc.ApkVersionIfc;
 import org.yousuowei.ota.ifc.info.ApkVersionInfo;
+import org.yousuowei.ota.web.controller.resp.ResultResp;
+import org.yousuowei.ota.web.controller.resp.ResultResp.STATUS;
 
 /**
  * @ClassName: ApkVersionController
@@ -29,19 +27,31 @@ import org.yousuowei.ota.ifc.info.ApkVersionInfo;
  * @date: 2014-9-14 下午4:33:21
  */
 @Controller
-@RequestMapping("/apkversion")
-public class ApkVersionApi extends BaseApi<ApkVersionInfo> {
+@RequestMapping("api/apkversion")
+public class ApkVersionApi {
 
-    @RequestMapping(value = "/checkNewVersion", method = RequestMethod.GET)
-    @ResponseBody
-    public ApkVersionInfo checkNewVersion(@RequestParam String pkName,
-	    @RequestParam int vCode) {
-	Logger logger = LoggerFactory.getLogger(ApkVersionApi.class);
-	logger.info("checkNewVersion pkName:" + pkName + " vCode:" + vCode);
-	ApkVersionInfo info = ((ApkVersionIfc) service).getNewestVersion(
-		pkName, vCode);
-	logger.info("checkNewVersion info:"
-		+ (null == info ? "null" : info.toString()));
-	return info;
+    @Autowired
+    private ApkVersionIfc service;
+
+    private ResultResp result;
+
+    public void setService(ApkVersionIfc service) {
+	this.service = service;
     }
+
+    @RequestMapping(value = "/checkApkVersion")
+    @ResponseBody
+    public ResultResp checkApkVersion(String packageName, Integer version) {
+	ApkVersionInfo info = service.checkApkVersion(packageName, version);
+	result = new ResultResp();
+	if (null == info) {
+	    result.setStatus(STATUS.FAILED);
+	    result.setMsg("软件没有更新！");
+	} else {
+	    result.setStatus(STATUS.SUCESS);
+	    result.setData(info);
+	}
+	return result;
+    }
+
 }

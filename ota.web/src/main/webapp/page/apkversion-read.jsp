@@ -42,7 +42,7 @@
 	<c:choose>
 		<c:when test="${empty model.id}">
 			<c:set var="tbl_title" value="添加task"></c:set>
-			<c:set var="tbl_url" value="add"></c:set>
+			<c:set var="tbl_url" value="addWithFile"></c:set>
 			<c:set var="tbl_method" value="post"></c:set>
 		</c:when>
 		<c:otherwise>
@@ -53,7 +53,7 @@
 	</c:choose>
 
 	<f:form action="${tbl_url }" method="${tbl_method }" id="inputForm"
-		commandName="model">
+		commandName="model" enctype="multipart/form-data">
 		<f:hidden path="id" />
 		<table width="100%">
 			<tr>
@@ -73,13 +73,21 @@
 				<td class="tdLeft"><f:input path="version" /></td>
 			</tr>
 			<tr>
-				<td width="10%" class="tdRight">文件md5：</td>
-				<td class="tdLeft"><f:input path="fileMd5" /></td>
+				<td width="10%" class="tdRight">上传apk：</td>
+				<td class="tdLeft"><input type="file" name="file" /></td>
 			</tr>
-			<tr>
-				<td width="10%" class="tdRight">apk文件url：</td>
-				<td class="tdLeft"><f:input path="url" /></td>
-			</tr>
+			<c:choose>
+				<c:when test="${!empty model.id}">
+					<tr>
+						<td width="10%" class="tdRight">文件md5：</td>
+						<td class="tdLeft">${model.fileMd5}</td>
+					</tr>
+					<tr>
+						<td width="10%" class="tdRight">apk文件url：</td>
+						<td class="tdLeft"><a href="${model.url}">${model.url}</a></td>
+					</tr>
+				</c:when>
+			</c:choose>
 			<tr>
 				<td width="10%" class="tdRight">版本描述：</td>
 				<td class="tdLeft"><f:textarea cols="60" rows="10" path="desc" /></td>

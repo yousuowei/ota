@@ -48,7 +48,7 @@ http://www.springframework.org/schema/aop/spring-aop.xsd">
 		<!-- 每个分区最小的连接数 -->
 		<property name="minConnectionsPerPartition" value="5" />
 		<!-- 分区数，默认值2，最小1，推荐3-4，视应用而定 -->
-		<property name="partitionCount" value="2" />
+		<property name="partitionCount" value="1" />
 		<!-- 每次去拿数据库连接的时候一次性要拿几个，默认值：2 -->
 		<property name="acquireIncrement" value="5" />
 		<!-- 缓存prepared statements的大小，默认值：0 -->
