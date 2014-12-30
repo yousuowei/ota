@@ -23,6 +23,6 @@ import org.yousuowei.ota.ifc.info.ApkVersionInfo;
 
 public interface ApkVersionIfc extends BaseIfc<ApkVersionInfo> {
 
-    public ApkVersionInfo getNewestVersion(String pkName, int vCode);
+    public ApkVersionInfo checkApkVersion(String name, Integer oldVersion);
 
 }
