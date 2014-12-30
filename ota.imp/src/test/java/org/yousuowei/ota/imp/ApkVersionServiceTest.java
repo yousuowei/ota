@@ -19,32 +19,19 @@ public class ApkVersionServiceTest {
     @Autowired
     ApkVersionIfc apkVersionIfc;
 
-    private String apkName = "org.yousuowei.clearance";
-    private String url = "http://yousuowei.com";
-    private Integer version = 1001;
-
     @Test
-    public void testAdd() {
-	boolean addResult = add();
-	Assert.isTrue(addResult);
-    }
-
-    @Test
-    public void testGetNewestVersion() {
-	add();
-	ApkVersionInfo info = apkVersionIfc.getNewestVersion(apkName, version);
-	Assert.isNull(info);
-	info = apkVersionIfc.getNewestVersion(apkName, version + 1);
-	Assert.isNull(info);
-	info = apkVersionIfc.getNewestVersion(apkName, version - 1);
-	Assert.notNull(info);
-    }
-
-    private boolean add() {
+    public void test() {
+	String apkName = "org.yousuowei.clearance";
+	String url = "http://yousuowei.com";
 	ApkVersionInfo info = new ApkVersionInfo();
 	info.setName(apkName);
 	info.setUrl(url);
-	info.setVersion(version);
-	return apkVersionIfc.add(info);
+	boolean addResult = apkVersionIfc.add(info);
+	Assert.isTrue(addResult);
+	info = apkVersionIfc.findAll().get(0);
+	boolean delResult = apkVersionIfc.del(info.getId());
+	apkVersionIfc.findAll();
+	Assert.isTrue(delResult);
     }
+
 }

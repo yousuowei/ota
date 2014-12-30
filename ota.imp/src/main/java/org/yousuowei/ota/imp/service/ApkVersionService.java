@@ -11,10 +11,6 @@
 
 package org.yousuowei.ota.imp.service;
 
-import java.util.List;
-
-import org.hibernate.criterion.Criterion;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Service;
 import org.yousuowei.base.imp.service.BaseService;
 import org.yousuowei.ota.ifc.ApkVersionIfc;
@@ -31,15 +27,15 @@ import org.yousuowei.ota.imp.entity.ApkVersionEntity;
 public class ApkVersionService extends
 	BaseService<ApkVersionEntity, ApkVersionInfo> implements ApkVersionIfc {
 
-    public ApkVersionInfo getNewestVersion(String pkName, int vCode) {
-	Criterion namecCriterion = Restrictions.eq("name", pkName);
-	Criterion versionCriterion = Restrictions.gt("version", vCode);
-	List<ApkVersionEntity> entityList = find(namecCriterion,
-		versionCriterion);
-	if (null != entityList && entityList.size() != 0) {
-	    return entityToInfo(entityList.get(0));
-	} else {
+    public ApkVersionInfo checkApkVersion(String name, Integer oldVersion) {
+	ApkVersionEntity entity = findUniqueBy("name", name);
+	if (null == entity) {
 	    return null;
 	}
+	if (null == oldVersion || entity.getVersion() > oldVersion) {
+	    return entityToInfo(entity);
+	}
+	return null;
     }
+
 }
